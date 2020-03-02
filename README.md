@@ -72,6 +72,16 @@ json.Unmarshal([]byte(`{
 // send validation using this library.
 ```
 
+## Limitations
+
+There are several limitations on the structures that can be encoded:
+
+  * Circular references are not allowed between any struct types.
+  * Embedded structs are not supported
+  * Methods are not preserved, and therefore interface implementation
+    is not known.
+  * Field types cannot be: interfaces, channels, functions
+
 ## But... why?
 
 The real world use case that led to the creation of this library was

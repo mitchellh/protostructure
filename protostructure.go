@@ -1,3 +1,17 @@
+// Package protostructure provides a mechanism for encoding and decoding
+// a struct _type_ using protocol buffers. To be clear: this encodes the
+// _type_ and not the _value_.
+//
+// Most importantly, this lets you do things such as transferring a struct
+// that supports JSON decoding across a protobuf RPC, and then decoding
+// a JSON value directly into it since you have access to things such as
+// struct tags from the remote end.
+//
+// For a pure JSON use case, it may make sense to instead send the JSON
+// rather than send the struct type. There are other scenarios where sending
+// the type is easier and this library facilitates those use cases.
+//
+// The primary functions you want to look at are "Encode" and "New".
 package protostructure
 
 import (
@@ -10,6 +24,14 @@ import (
 // Encode converts a struct to a *Struct which implements proto.Message
 // and can therefore be sent over the wire. Note that only the _structure_
 // of the struct is encoded and NOT any fields values.
+//
+// Encoding has a number of limitations:
+//
+//   * Circular references are not allowed between any struct types
+//   * Embedded structs are not supported
+//   * Methods are not preserved
+//   * Field types cannot be: interfaces, channels, functions
+//
 func Encode(s interface{}) (*Struct, error) {
 	// If s is a Type already then we use that directly (a code path used
 	// by protoType but not generally expected for callers).
