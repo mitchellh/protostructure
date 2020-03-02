@@ -30,6 +30,12 @@ message Type {
     Primitive primitive = 1;
     Container container = 2;
     Struct    struct = 3;
+
+    // NOTE(mitchellh): for now, we only allow embedding a full Struct type
+    // here. If there are a number of fields with the same Struct, then we'll
+    // repeat ourselves a lot. If this is ever a real problem, we can introduce
+    // some sort of "reference" mechanism but it wasn't necessary when this
+    // was first built.
   }
 }
 
