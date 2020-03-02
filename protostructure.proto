@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package protostructure;
+
+// Struct represents a struct type.
+//
+// This has the following limitations:
+//
+//   * Circular references are not allowed between any struct types
+//   * Embedded structs are not supported
+//   * Methods are not preserved
+//
+message Struct {
+  // fields is the list of fields in the struct
+  repeated Field fields = 1;
+
+  // Field is a field type. See reflect.StructField in the Go stdlib
+  // since the fields in this message match that almost exactly.
+  message Field {
+    string Name = 1;
+    string PkgPath = 2;
+    string Tag = 3;
+    Type   type = 4;
+  }
+}
+
+// Type represents a Go type.
+message Type {
+  oneof type {
+    Primitive primitive = 1;
+    Container container = 2;
+    Struct    struct = 3;
+  }
+}
+
+// Primitive is a primitive type such as int, bool, etc.
+message Primitive {
+  // kind is the reflect.Kind value for this primitive. This MUST be
+  // a primitive value. For example, reflect.Ptr would be invalid here.
+  uint32 kind = 1;
+}
+
+// Container represents any "container" type such as a sliec, array, map, etc.
+message Container {
+  // kind must be one of: array, map, ptr, slice
+  uint32 kind = 1;
+
+  // elem is the type of the element of this container
+  Type elem = 2;
+
+  // key is the type of the key, only if kind == map
+  Type key = 3;
+
+  // count is the number of elements, only if kind == array
+  int32 count = 4;
+}
