@@ -55,7 +55,7 @@ type Port struct {
 // You can encode the structure on one side:
 message, err := protostructure.Encode(Config{})
 
-// And you can use the structure on the other side. Imagine structVal
+// And you can use the structure on the other side. Imagine resp
 // is populated using some protobuf RPC such as gRPC.
 val, err := protostructure.New(resp.Config)
 json.Unmarshal([]byte(`{
