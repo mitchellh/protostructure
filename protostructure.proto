@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package protostructure;
 
+option go_package = "github.com/mitchellh/protostructure";
+
 // Struct represents a struct type.
 //
 // This has the following limitations:
