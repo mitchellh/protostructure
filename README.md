@@ -76,16 +76,14 @@ json.Unmarshal([]byte(`{
 
 The real world use case that led to the creation of this library was
 to facilitate decoding and validating configuration for plugins via
-[go-plugin](https://github.com/hashicorp/go-plugin).
+[go-plugin](https://github.com/hashicorp/go-plugin), a plugin system for
+Go that communicates using [gRPC](https://grpc.io).
 
-go-plugin uses [gRPC](https://grpc.io/) and the plugins for this
-particular program could have dynamic configuration structures that were
-decoded using an `encoding/json`-like interface (struct tags) and validated
-using [`go-playground/validator`](https://github.com/go-playground/validator)
-which also uses struct tags.
-
-By using protostructure, we can send the configuration structure across
-the wire, decode and validate the configuration in the host process,
+The plugins for this particular program have dynamic configuration structures
+that were decoded using an `encoding/json`-like interface (struct tags) and
+validated using [`go-playground/validator`](https://github.com/go-playground/validator)
+which also uses struct tags. Using protostructure, we can send the configuration
+structure across the wire, decode and validate the configuration in the host process,
 and report more rich errors that way.
 
 Another reason we wanted to ship the config structure vs. ship the
