@@ -44,7 +44,11 @@ func goType(t *Type) reflect.Type {
 		case reflect.Ptr:
 			return reflect.PtrTo(goType(t.Container.Elem))
 
-			// TODO: others
+		case reflect.Slice:
+			return reflect.SliceOf(goType(t.Container.Elem))
+
+		case reflect.Array:
+			return reflect.ArrayOf(int(t.Container.Count), goType(t.Container.Elem))
 		}
 	}
 

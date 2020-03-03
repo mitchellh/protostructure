@@ -17,6 +17,8 @@ func TestEncode(t *testing.T) {
 		Map       map[string]string `json:"map"`
 		Nested    nested            `json:"nested"`
 		NestedPtr *nested           `json:"nested_ptr"`
+		Slice     []int             `json:"slice"`
+		Array     [3]int            `json:"array"`
 	}
 
 	cases := []struct {
@@ -34,7 +36,9 @@ func TestEncode(t *testing.T) {
 	"v": "hello",
 	"map": { "key": "value" },
 	"nested": { "value": "direct" },
-	"nested_ptr": { "value": "ptr" }
+	"nested_ptr": { "value": "ptr" },
+	"slice": [1, 4, 8],
+	"array": [1, 2, 3]
 }`,
 		},
 
