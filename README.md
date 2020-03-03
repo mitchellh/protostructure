@@ -74,13 +74,17 @@ json.Unmarshal([]byte(`{
 
 ## Limitations
 
-There are several limitations on the structures that can be encoded:
+There are several limitations on the structures that can be encoded.
+Some of these limitations are fixable but the effort hasn't been put in
+while others are fundamental due to the limitations of Go currently:
 
   * Circular references are not allowed between any struct types.
   * Embedded structs are not supported
   * Methods are not preserved, and therefore interface implementation
-    is not known.
+    is not known. This is also an important detail because custom callbacks
+    such as `UnmarshalJSON` may not work properly.
   * Field types cannot be: interfaces, channels, functions
+  * Certain stdlib types such as `time.Time` currently do not encode well.
 
 ## But... why?
 
